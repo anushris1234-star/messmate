@@ -1,14 +1,26 @@
+import Login from "./pages/Login"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
+import Home from "./pages/Home"
+import Menu from "./pages/Menu"
+import Feedback from "./pages/Feedback"
+import Issues from "./pages/Issues"
+
+import "./App.css"
+
 function App() {
   return (
-    <div>
-      <h1>MessMate 🍱</h1>
-      <p>Mess Feedback & Management System</p>
-
-      <button>View Menu</button>
-      <button>Give Feedback</button>
-      <button>Report an Issue</button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/feedback" element={<Feedback />} />
+        <Route path="/issues" element={<Issues />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
 export default App
+
