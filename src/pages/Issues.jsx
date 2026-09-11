@@ -19,7 +19,7 @@ function Issues() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/issues", {
+      const response = await fetch("https://messmate-awmh.onrender.com/api/issues", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,6 +136,7 @@ function Issues() {
                 placeholder="Describe the issue..."
                 rows="7"
                 value={description}
+                
                 onChange={(event) => setDescription(event.target.value)}
               ></textarea>
             </div>

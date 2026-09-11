@@ -5,7 +5,7 @@ function AdminIssues() {
   const [issues, setIssues] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/issues")
+    fetch("https://messmate-awmh.onrender.com/api//api/issues")
       .then((response) => response.json())
       .then((data) => {
         setIssues(data)
@@ -18,7 +18,7 @@ function AdminIssues() {
   async function handleStatusChange(issueId, newStatus) {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/issues/${issueId}`,
+        `https://messmate-awmh.onrender.com/api//api/issues/${issueId}`,
         {
           method: "PUT",
           headers: {
@@ -60,7 +60,7 @@ function AdminIssues() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/issues/${issueId}`,
+        `https://messmate-awmh.onrender.com/api//api/issues/${issueId}`,
         {
           method: "DELETE",
         }

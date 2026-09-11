@@ -10,15 +10,15 @@ function Home() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/meals")
+    fetch("https://messmate-awmh.onrender.com/api//api/meals")
       .then((response) => response.json())
       .then((data) => setMeals(data))
 
-    fetch("http://localhost:5000/api/feedback")
+    fetch("https://messmate-awmh.onrender.com/api//api/feedback")
       .then((response) => response.json())
       .then((data) => setFeedback(data))
 
-    fetch("http://localhost:5000/api/issues")
+    fetch("https://messmate-awmh.onrender.com/api//api/issues")
       .then((response) => response.json())
       .then((data) => setIssues(data))
   }, [])

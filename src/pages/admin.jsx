@@ -9,7 +9,7 @@ function Admin() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/meals")
+    fetch("https://messmate-awmh.onrender.com/api/meals")
       .then((response) => response.json())
       .then((data) => {
         setMealCount(data.length)
@@ -18,7 +18,7 @@ function Admin() {
         console.error("Error fetching meals:", error)
       })
 
-    fetch("http://localhost:5000/api/feedback")
+    fetch("https://messmate-awmh.onrender.com/api/feedback")
       .then((response) => response.json())
       .then((data) => {
         setFeedbackCount(data.length)
@@ -27,7 +27,7 @@ function Admin() {
         console.error("Error fetching feedback:", error)
       })
 
-    fetch("http://localhost:5000/api/issues")
+    fetch("https://messmate-awmh.onrender.com/api/issues")
       .then((response) => response.json())
       .then((data) => {
         setIssueCount(data.length)

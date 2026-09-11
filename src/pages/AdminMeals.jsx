@@ -13,7 +13,7 @@ function AdminMeals() {
   const [editingMealId, setEditingMealId] = useState(null)
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/meals")
+    fetch("https://messmate-awmh.onrender.com/api//api/meals")
       .then((response) => response.json())
       .then((data) => {
         setMeals(data)
@@ -53,7 +53,7 @@ function AdminMeals() {
 
       if (editingMealId) {
         response = await fetch(
-          `http://localhost:5000/api/meals/${editingMealId}`,
+          `https://messmate-awmh.onrender.com/api//api/meals/${editingMealId}`,
           {
             method: "PUT",
             headers: {
@@ -63,7 +63,7 @@ function AdminMeals() {
           }
         )
       } else {
-        response = await fetch("http://localhost:5000/api/meals", {
+        response = await fetch("https://messmate-awmh.onrender.com/api//api/meals", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -115,7 +115,7 @@ function AdminMeals() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/meals/${mealId}`,
+        `https://messmate-awmh.onrender.com/api//api/meals/${mealId}`,
         {
           method: "DELETE",
         }
