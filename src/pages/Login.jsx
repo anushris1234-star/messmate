@@ -11,7 +11,7 @@ function Login() {
     event.preventDefault()
 
     try {
-      const response = await fetch("https://messmate-awmh.onrender.com/api/login/api/login", {
+      const response = await fetch("https://messmate-awmh.onrender.com/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
