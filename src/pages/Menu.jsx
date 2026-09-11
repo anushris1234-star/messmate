@@ -1,32 +1,26 @@
 import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
 
 function Menu() {
-  const meals = [
-    {
-      type: "Breakfast",
-      time: "7:30 AM - 9:00 AM",
-      items: ["Idli", "Sambar", "Coconut Chutney", "Tea"],
-      icon: "🌅",
-    },
-    {
-      type: "Lunch",
-      time: "12:30 PM - 2:00 PM",
-      items: ["Rice", "Dal", "Paneer Curry", "Vegetable Salad", "Curd"],
-      icon: "☀️",
-    },
-    {
-      type: "Dinner",
-      time: "7:30 PM - 9:00 PM",
-      items: ["Roti", "Mixed Vegetable Curry", "Jeera Rice", "Dal", "Dessert"],
-      icon: "🌙",
-    },
-  ]
+  const [meals, setMeals] = useState([])
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/meals")
+      .then((response) => response.json())
+      .then((data) => {
+        setMeals(data)
+      })
+      .catch((error) => {
+        console.error("Error fetching meals:", error)
+      })
+  }, [])
 
   return (
     <div className="app">
       <nav className="navbar">
         <div className="logo">
-          🍱 <span>MessMate</span>
+          <span className="logo-mark">M</span>
+          <span>MessMate</span>
         </div>
 
         <div className="nav-links">
@@ -36,40 +30,88 @@ function Menu() {
           <Link to="/issues">Issues</Link>
         </div>
 
-        <button className="login-btn">Login</button>
+        <Link to="/login" className="login-btn">
+          Login
+        </Link>
       </nav>
 
       <main className="menu-page">
-        <div className="menu-header">
+
+        <section className="menu-intro">
           <p className="tagline">TODAY'S MENU</p>
 
-          <h1>What's cooking? 🍽️</h1>
+          <h1>
+            Something good
+            <br />
+            is being served.
+          </h1>
 
           <p>
-            Check out today's meals and plan your day at the mess.
+            Explore today's meals and see what's waiting
+            for you at the mess.
           </p>
-        </div>
+        </section>
 
-        <div className="meal-grid">
-          {meals.map((meal) => (
-            <div className="menu-card" key={meal.type}>
-              <div className="menu-card-header">
-                <div>
-                  <h2>{meal.type}</h2>
-                  <p className="meal-time">{meal.time}</p>
+        <section className="menu-content">
+
+          <div className="menu-date">
+            <span>MENU FOR TODAY</span>
+            <div></div>
+          </div>
+
+          <div className="meal-grid">
+
+            {meals.map((meal) => (
+              <article className="menu-card" key={meal.meal_id}>
+
+                <div className="menu-card-header">
+
+                  <div>
+                    <p className="meal-number">
+                      {String(meal.meal_id).padStart(2, "0")}
+                    </p>
+
+                    <h2>{meal.meal_type}</h2>
+                  </div>
+
+                  <span className="meal-symbol">
+                    {meal.meal_type === "Breakfast"
+                      ? "☀"
+                      : meal.meal_type === "Lunch"
+                      ? "◐"
+                      : "☾"}
+                  </span>
+
                 </div>
 
-                <span className="meal-icon">{meal.icon}</span>
-              </div>
+                <div className="meal-items">
 
-              <ul>
-                {meal.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+                  {meal.items.split(", ").map((item, index) => (
+                    <div className="menu-item" key={index}>
+                      <span className="item-dot"></span>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+
+                </div>
+
+                <div className="meal-time">
+                  <span>Serving time</span>
+
+                  <strong>
+                    {meal.start_time.slice(0, 5)}
+                    {" – "}
+                    {meal.end_time.slice(0, 5)}
+                  </strong>
+                </div>
+
+              </article>
+            ))}
+
+          </div>
+
+        </section>
+
       </main>
     </div>
   )

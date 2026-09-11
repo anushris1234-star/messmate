@@ -5,22 +5,52 @@ function Issues() {
   const [issueType, setIssueType] = useState("Food Quality")
   const [description, setDescription] = useState("")
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
 
-    console.log({
-      issueType,
-      description,
-    })
+    if (!description.trim()) {
+      alert("Please describe the issue.")
+      return
+    }
 
-    alert("Issue reported successfully! 🛠️")
+    const issue = {
+      issue_type: issueType,
+      description,
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/issues", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(issue),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        alert("Issue reported successfully! 🛠️")
+
+        console.log(data)
+
+        setIssueType("Food Quality")
+        setDescription("")
+      } else {
+        alert("Failed to report issue.")
+      }
+    } catch (error) {
+      console.error(error)
+      alert("Could not connect to the server.")
+    }
   }
 
   return (
     <div className="app">
       <nav className="navbar">
         <div className="logo">
-          🍱 <span>MessMate</span>
+          <span className="logo-mark">M</span>
+          <span>MessMate</span>
         </div>
 
         <div className="nav-links">
@@ -30,52 +60,95 @@ function Issues() {
           <Link to="/issues">Issues</Link>
         </div>
 
-        <button className="login-btn">Login</button>
+        <Link to="/login" className="login-btn">
+          Login
+        </Link>
       </nav>
 
-      <main className="feedback-page">
-        <div className="feedback-header">
+      <main className="issue-page">
+
+        <section className="issue-intro">
+
           <p className="tagline">REPORT A PROBLEM</p>
 
-          <h1>Something wrong?</h1>
+          <h1>
+            Something
+            <br />
+            needs attention?
+          </h1>
 
-          <p>
-            Let the mess management team know about an issue.
+          <p className="issue-description">
+            If something isn't quite right, let the mess
+            management team know. Your report helps us
+            address problems and improve the dining
+            experience.
           </p>
-        </div>
 
-        <form className="feedback-card" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Issue Type</label>
+          <div className="issue-note">
+            <div className="issue-note-icon">!</div>
 
-            <select
-              value={issueType}
-              onChange={(event) => setIssueType(event.target.value)}
-            >
-              <option>Food Quality</option>
-              <option>Hygiene</option>
-              <option>Food Quantity</option>
-              <option>Cleanliness</option>
-              <option>Service</option>
-              <option>Other</option>
-            </select>
+            <div>
+              <strong>We'll take it from here.</strong>
+
+              <p>
+                Describe the problem clearly and we'll make
+                sure it reaches the right people.
+              </p>
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Description</label>
+        </section>
 
-            <textarea
-              placeholder="Describe the issue..."
-              rows="6"
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-            ></textarea>
+        <section className="issue-card">
+
+          <div className="issue-card-header">
+            <p className="section-label">REPORT AN ISSUE</p>
+
+            <h2>What's happening?</h2>
+
+            <p>
+              Give us a few details so we can understand the problem.
+            </p>
           </div>
 
-          <button type="submit" className="submit-btn">
-            Report Issue
-          </button>
-        </form>
+          <form onSubmit={handleSubmit}>
+
+            <div className="form-group">
+              <label>Issue Type</label>
+
+              <select
+                value={issueType}
+                onChange={(event) => setIssueType(event.target.value)}
+              >
+                <option>Food Quality</option>
+                <option>Hygiene</option>
+                <option>Food Quantity</option>
+                <option>Cleanliness</option>
+                <option>Service</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Description</label>
+
+              <textarea
+                placeholder="Describe the issue..."
+                rows="7"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+              ></textarea>
+            </div>
+
+            <button type="submit" className="submit-btn">
+              Report Issue
+              <span>→</span>
+            </button>
+
+          </form>
+
+        </section>
+
       </main>
     </div>
   )

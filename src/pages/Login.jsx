@@ -1,26 +1,53 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  function handleSubmit(event) {
+  const navigate = useNavigate()
+
+  async function handleSubmit(event) {
     event.preventDefault()
 
-    console.log({
-      email,
-      password,
-    })
+    try {
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
 
-    alert("Login successful! 👋")
+      const data = await response.json()
+
+      if (!response.ok) {
+        alert(data.message)
+        return
+      }
+
+      localStorage.setItem("user", JSON.stringify(data.user))
+
+      if (data.user.role === "admin") {
+        navigate("/admin")
+      } else {
+        navigate("/student")
+      }
+    } catch (error) {
+      console.error(error)
+      alert("Could not connect to the server.")
+    }
   }
 
   return (
     <div className="app">
       <nav className="navbar">
         <div className="logo">
-          🍱 <span>MessMate</span>
+          <span className="logo-mark">M</span>
+          <span>MessMate</span>
         </div>
 
         <div className="nav-links">
@@ -30,22 +57,53 @@ function Login() {
           <Link to="/issues">Issues</Link>
         </div>
 
-        <Link to="/login" className="login-btn">Login</Link>
-        </nav>
+        <Link to="/login" className="login-btn">
+          Login
+        </Link>
+      </nav>
 
       <main className="login-page">
-        <div className="login-card">
-          <div className="login-header">
-            <p className="tagline">WELCOME BACK</p>
 
-            <h1>Login to MessMate</h1>
+        <section className="login-intro">
+
+          <p className="tagline">MESSMATE</p>
+
+          <h1>
+            Good food
+            <br />
+            starts with
+            <br />
+            <span>good communication.</span>
+          </h1>
+
+          <p className="login-description">
+            Stay connected with your mess, share your experience,
+            and help make every meal better.
+          </p>
+
+          <div className="login-note">
+            <span>✦</span>
+            <p>
+              Your feedback helps shape tomorrow's menu.
+            </p>
+          </div>
+
+        </section>
+
+        <section className="login-card">
+
+          <div className="login-header">
+            <p className="section-label">WELCOME BACK</p>
+
+            <h2>Sign in</h2>
 
             <p>
-              Access your mess management dashboard.
+              Access your MessMate account.
             </p>
           </div>
 
           <form onSubmit={handleSubmit}>
+
             <div className="form-group">
               <label>Email</label>
 
@@ -71,10 +129,20 @@ function Login() {
             </div>
 
             <button type="submit" className="submit-btn">
-              Login
+              Sign in
+              <span>→</span>
             </button>
+
           </form>
-        </div>
+
+          <div className="login-footer">
+            <span></span>
+            <p>MessMate · Campus Dining</p>
+            <span></span>
+          </div>
+
+        </section>
+
       </main>
     </div>
   )
