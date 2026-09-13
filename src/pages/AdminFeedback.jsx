@@ -5,7 +5,7 @@ function AdminFeedback() {
   const [feedback, setFeedback] = useState([])
 
   useEffect(() => {
-    fetch("https://messmate-awmh.onrender.com/api//api/feedback")
+    fetch("https://messmate-awmh.onrender.com/api/feedback")
       .then((response) => response.json())
       .then((data) => {
         setFeedback(data)
