@@ -29,7 +29,7 @@ function Feedback() {
     }
 
     try {
-      const response = await fetch("https://messmate-awmh.onrender.com/api//api/feedback", {
+      const response = await fetch("https://messmate-awmh.onrender.com/api/feedback", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
