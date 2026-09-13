@@ -5,7 +5,7 @@ function Menu() {
   const [meals, setMeals] = useState([])
 
   useEffect(() => {
-    fetch("https://messmate-awmh.onrender.com/api//api/meals")
+    fetch("https://messmate-awmh.onrender.com/api/meals")
       .then((response) => response.json())
       .then((data) => {
         setMeals(data)
