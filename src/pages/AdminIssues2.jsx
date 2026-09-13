@@ -60,7 +60,7 @@ function AdminIssues() {
 
     try {
       const response = await fetch(
-        `https://messmate-awmh.onrender.com/api//api/issues/${issueId}`,
+        `https://messmate-awmh.onrender.com/api/issues/${issueId}`,
         {
           method: "DELETE",
         }
