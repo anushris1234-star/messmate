@@ -13,7 +13,7 @@ function AdminMeals() {
   const [editingMealId, setEditingMealId] = useState(null)
 
   useEffect(() => {
-    fetch("https://messmate-awmh.onrender.com/api//api/meals")
+    fetch("https://messmate-awmh.onrender.com/api/meals")
       .then((response) => response.json())
       .then((data) => {
         setMeals(data)
