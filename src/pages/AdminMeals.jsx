@@ -53,7 +53,7 @@ function AdminMeals() {
 
       if (editingMealId) {
         response = await fetch(
-          `https://messmate-awmh.onrender.com/api//api/meals/${editingMealId}`,
+          `https://messmate-awmh.onrender.com/api/meals/${editingMealId}`,
           {
             method: "PUT",
             headers: {
@@ -63,7 +63,7 @@ function AdminMeals() {
           }
         )
       } else {
-        response = await fetch("https://messmate-awmh.onrender.com/api//api/meals", {
+        response = await fetch("https://messmate-awmh.onrender.com/api/meals", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -115,7 +115,7 @@ function AdminMeals() {
 
     try {
       const response = await fetch(
-        `https://messmate-awmh.onrender.com/api//api/meals/${mealId}`,
+        `https://messmate-awmh.onrender.com/api/meals/${mealId}`,
         {
           method: "DELETE",
         }
