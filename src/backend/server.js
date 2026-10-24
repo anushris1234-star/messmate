@@ -6,6 +6,11 @@ const app = express()
 const PORT = process.env.PORT || 5000
 console.log("DATABASE_URL exists:", !!process.env.DATABASE_URL)
 
+app.use((req, res, next) => {
+  res.setHeader('X-Instance', process.env.INSTANCE || 'unknown');
+  next();
+});
+
 app.use(cors())
 app.use(express.json())
 app.get("/", (req, res) => {
