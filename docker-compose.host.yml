@@ -1,0 +1,31 @@
+services:
+  backend1:
+    build: ./src/backend
+    network_mode: host
+    environment:
+      PORT: 5001
+      DATABASE_URL: ${DATABASE_URL}
+      INSTANCE: backend1
+  backend2:
+    build: ./src/backend
+    network_mode: host
+    environment:
+      PORT: 5002
+      DATABASE_URL: ${DATABASE_URL}
+      INSTANCE: backend2
+  backend3:
+    build: ./src/backend
+    network_mode: host
+    environment:
+      PORT: 5003
+      DATABASE_URL: ${DATABASE_URL}
+      INSTANCE: backend3
+  nginx:
+    image: nginx:alpine
+    network_mode: host
+    volumes:
+      - ./nginx.host.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
