@@ -1,3 +1,4 @@
+const { requireAuth, requireStaff } = require("./auth")
 const express = require("express")
 const cors = require("cors")
 const pool = require("./db")
@@ -98,7 +99,7 @@ app.post("/api/meals", async (req, res) => {
     })
   }
 })
-app.put("/api/meals/:id", async (req, res) => {
+app.put("/api/meals/:id", requireAuth, requireStaff, async (req, res) => {
   try {
     const {
       meal_date,
@@ -137,7 +138,7 @@ app.put("/api/meals/:id", async (req, res) => {
   }
 })
 
-app.delete("/api/meals/:id", async (req, res) => {
+app.delete("/api/meals/:id", requireAuth, requireStaff, async (req, res) => {
   try {
     const { id } = req.params
 
@@ -215,7 +216,7 @@ app.get("/api/issues", async (req, res) => {
   }
 })
 
-app.put("/api/issues/:id", async (req, res) => {
+app.put("/api/issues/:id", requireAuth, requireStaff, async (req, res) => {
   try {
     const { status } = req.body
     const { id } = req.params
@@ -243,7 +244,7 @@ app.put("/api/issues/:id", async (req, res) => {
   }
 })
 
-app.delete("/api/issues/:id", async (req, res) => {
+app.delete("/api/issues/:id", requireAuth, requireStaff, async (req, res) => {
   try {
     const { id } = req.params
 
@@ -269,33 +270,8 @@ app.delete("/api/issues/:id", async (req, res) => {
     })
   }
 })
-app.post("/api/login", async (req, res) => {
-  try {
-    const { email, password } = req.body
 
-    const result = await pool.query(
-      "SELECT user_id, name, email, role FROM users WHERE email = $1 AND password = $2",
-      [email, password]
-    )
-
-    if (result.rows.length === 0) {
-      return res.status(401).json({
-        message: "Invalid email or password",
-      })
-    }
-
-    res.json({
-      message: "Login successful",
-      user: result.rows[0],
-    })
-  } catch (error) {
-    console.error(error)
-
-    res.status(500).json({
-      message: "Login failed",
-    })
-  }
-})
+app.use(require("./authRoutes"))
 
 const server = app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`)
